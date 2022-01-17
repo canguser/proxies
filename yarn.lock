@@ -487,6 +487,11 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
+"@rapidly/utils@2.0.0-beta2":
+  version "2.0.0-beta2"
+  resolved "https://registry.yarnpkg.com/@rapidly/utils/-/utils-2.0.0-beta2.tgz#d494f5461b83072beda26acf8b5bca1a4cbb6952"
+  integrity sha512-G/qlLKpSRXtKRjYatU4YIImMXn/QUCZ1a/4cw7Amy/xMv+b4lO7DGEDKAkQFB4Ae5oR+O8uYytIzftZGHKb0Tw==
+
 "@rollup/plugin-commonjs@^20.0.0":
   version "20.0.0"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-commonjs/-/plugin-commonjs-20.0.0.tgz#3246872dcbcb18a54aaa6277a8c7d7f1b155b745"
@@ -2238,6 +2243,11 @@ prelude-ls@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
   integrity sha1-IZMqVJ9eUv/ZqCf1cOBL5iqX2lQ=
+
+prettier@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.5.1.tgz#fff75fa9d519c54cf0fce328c1017d94546bc56a"
+  integrity sha512-vBZcPRUR5MZJwoyi3ZoyQlc1rXeEck8KgeC9AwwOn+exuxLxq5toTRDTSaVrXHxelDMHy9zlicw8u66yxoSUFg==
 
 pretty-format@^27.0.0, pretty-format@^27.1.0:
   version "27.1.0"

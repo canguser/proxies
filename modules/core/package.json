@@ -34,6 +34,9 @@
     "package.json"
   ],
   "types": "types/index.d.ts",
+  "dependencies": {
+    "@rapidly/utils": "2.0.0-beta2"
+  },
   "devDependencies": {
   },
   "repository": "https://github.com/canguser/proxies.core.git"
