@@ -133,7 +133,6 @@ export class ProxyInstance {
                             set: () => {
                                 const [target, property, value] = args;
                                 const propertyChain = [...uniqueKeyChain];
-                                let preventDefault = false;
                                 const returnValue = handler({
                                     directProperty: property,
                                     property: propertyChain.join('.'),

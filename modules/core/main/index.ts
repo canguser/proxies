@@ -42,4 +42,6 @@ const methods = [
     'getDefaultPool'
 ];
 
-module.exports = fromEntries(methods.map((method) => [method, manager[method].bind(manager)]));
+export const LIB_NAME = '@rapidly/core';
+
+Object.assign(exports, fromEntries(methods.map((method) => [method, manager[method].bind(manager)])));

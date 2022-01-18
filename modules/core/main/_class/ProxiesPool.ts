@@ -40,10 +40,11 @@ export class ProxiesPool {
 
         if (this.manager) {
             this.manager.linkProxy(proxy, object);
+            this.manager.linkPool(proxy, this);
         }
 
         if (this.options.shallow) {
-            return;
+            return proxy;
         }
 
         Object.keys(object).forEach((key) => {
@@ -67,7 +68,7 @@ export class ProxiesPool {
                 if (this.options.readonly) {
                     preventDefault();
                     console.warn(`Target object is readonly. Property "${directProperty}" is not writable.`);
-                    return false;
+                    return true;
                 }
                 if (typeof value === 'object') {
                     const result = this.proxy(value);

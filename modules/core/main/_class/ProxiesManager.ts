@@ -3,6 +3,7 @@ import { ProxiesPool } from './ProxiesPool';
 export class ProxiesManager {
     proxiesPoolsMap: Map<string, ProxiesPool> = new Map<string, ProxiesPool>();
     proxy2objectMap = new WeakMap<object, object>();
+    proxy2poolMap = new WeakMap<object, ProxiesPool>();
 
     constructor() {
         this.proxiesPoolsMap.set('default', new ProxiesPool(this));
@@ -31,6 +32,10 @@ export class ProxiesManager {
         this.proxy2objectMap.set(proxy, object);
     }
 
+    linkPool(proxy: object, pool: ProxiesPool) {
+        this.proxy2poolMap.set(proxy, pool);
+    }
+
     hasProxy(proxy: object): boolean {
         return this.proxy2objectMap.has(proxy);
     }
@@ -49,7 +54,10 @@ export class ProxiesManager {
     subscribe(object: object, handlers: { [key: string]: Function }): string;
 
     subscribe(object: object, ...args): string {
-        const pool = this.getDefaultPool();
+        const pool = this.proxy2poolMap.get(object);
+        if (!pool) {
+            throw new Error(`Object ${object} can't be subscribed`);
+        }
         return pool.subscribe.apply(pool, [object, ...args]);
     }
 
@@ -60,19 +68,22 @@ export class ProxiesManager {
     intercept(object: object, handlers: { [key: string]: Function }): string;
 
     intercept(object: object, ...args): string {
-        const pool = this.getDefaultPool();
+        const pool = this.proxy2poolMap.get(object);
+        if (!pool) {
+            throw new Error(`Object ${object} can't be intercepted`);
+        }
         return pool.intercept.apply(pool, [object, ...args]);
     }
 
     unsubscribe(object: object, subscriptionId: string): void {
-        const pool = [...this.proxiesPoolsMap.values()].find((pool) => pool.has(object));
+        const pool = this.proxy2poolMap.get(object);
         if (pool) {
             pool.unsubscribe(object, subscriptionId);
         }
     }
 
     cancelIntercept(object: object, subscriptionId: string): void {
-        const pool = [...this.proxiesPoolsMap.values()].find((pool) => pool.has(object));
+        const pool = this.proxy2poolMap.get(object);
         if (pool) {
             pool.cancelIntercept(object, subscriptionId);
         }
