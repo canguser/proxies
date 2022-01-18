@@ -1,9 +1,13 @@
 import { ProxiesPool } from './ProxiesPool';
+import { linkRelationShip, linkTheSame, traverseRelationship } from '../_common';
+import { ProxyInstance } from './ProxyInstance';
 
 export class ProxiesManager {
     proxiesPoolsMap: Map<string, ProxiesPool> = new Map<string, ProxiesPool>();
     proxy2objectMap = new WeakMap<object, object>();
     proxy2poolMap = new WeakMap<object, ProxiesPool>();
+    proxyRelationshipMap = new WeakMap<object, Map<object, any>>();
+    proxy2instanceMap = new WeakMap<object, ProxyInstance>();
 
     constructor() {
         this.proxiesPoolsMap.set('default', new ProxiesPool(this));
@@ -28,12 +32,39 @@ export class ProxiesManager {
         return newPool;
     }
 
-    linkProxy(proxy: object, object: object) {
-        this.proxy2objectMap.set(proxy, object);
+    linkPoolProxyInstance(pool: ProxiesPool,instance: ProxyInstance) {
+        const proxy = instance.proxy;
+        this.proxy2objectMap.set(proxy, instance.target);
+        this.proxy2instanceMap.set(proxy, instance);
+        this.proxy2poolMap.set(proxy, pool);
     }
 
-    linkPool(proxy: object, pool: ProxiesPool) {
-        this.proxy2poolMap.set(proxy, pool);
+    getInstance(proxy: object): ProxyInstance {
+        return this.proxy2instanceMap.get(proxy);
+    }
+
+    linkRelationShip(proxy: object, property: any, parentProxy: object) {
+        if (!this.hasProxy(proxy) || !this.hasProxy(parentProxy)) {
+            console.warn('[ProxiesManager] linkRelationShip: object or parent is not a proxy from this manager');
+            return;
+        }
+        linkRelationShip(this.proxyRelationshipMap, proxy, property, parentProxy);
+    }
+
+    linkTheSame(proxy1: object, proxy2: object) {
+        if (!this.hasProxy(proxy1) || !this.hasProxy(proxy2)) {
+            console.warn('[ProxiesManager] linkTheSame: is not a proxy from this manager');
+            return;
+        }
+        linkTheSame(this.proxyRelationshipMap, proxy1, proxy2);
+    }
+
+    traverseRelationship(proxy: object, callback: (parent: object, propertyChain: any[]) => void, propertyChain = []) {
+        if (!this.hasProxy(proxy)) {
+            console.warn('[ProxiesManager] traverseRelationship: object is not a proxy from this manager');
+            return;
+        }
+        traverseRelationship(this.proxyRelationshipMap, proxy, callback, propertyChain);
     }
 
     hasProxy(proxy: object): boolean {

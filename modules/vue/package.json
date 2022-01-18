@@ -1,0 +1,44 @@
+{
+  "name": "@proxies/vue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/proxies.vue.js",
+  "mainMini": "dist/proxies.vue.mini.js",
+  "module": "dist/proxies.vue.es.js",
+  "bin": "bin/proxies.vue.js",
+  "libName": "proxies.vue",
+  "_sourceName": "proxies.vue",
+  "author": "Cangshi",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build": "yarn run rollup && yarn run rollup:mini && yarn run rollup:esm:es5",
+    "build-dev": "yarn run rollup",
+    "do-publish": "yarn run gen-dts:docs && yarn run build && yarn run run-publish ",
+    "run-publish": "yarn publish --access public --tag latest --new-version $npm_package_version",
+    "rollup": "rollup -c",
+    "rollup:mini": "cross-env NODE_ENV=prod rollup -c",
+    "rollup:esm": "cross-env NODE_ENV=esm rollup -c",
+    "rollup:esm:es5": "cross-env NODE_ENV=esm5 rollup -c",
+    "gen-dts": "npx tsc main/index.ts --declaration --emitDeclarationOnly --target ES2020 --moduleResolution node --outDir types",
+    "gen-docs": "typedoc --out docs main/*.ts",
+    "gen-dts:docs": "yarn run gen-dts && yarn run gen-docs"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "build",
+    "docs",
+    "types",
+    "readme.md",
+    "LICENSE",
+    "package.json"
+  ],
+  "types": "types/index.d.ts",
+  "dependencies": {
+    "@rapidly/utils": "2.0.0-beta2"
+  },
+  "devDependencies": {
+    "@vue/reactivity": "^3.2.27"
+  },
+  "repository": "https://github.com/canguser/proxies.vue.git"
+}

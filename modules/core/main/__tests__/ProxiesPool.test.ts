@@ -1,8 +1,11 @@
-import { ProxiesPool } from '../_class/ProxiesPool';
 import { wait } from '@rapidly/utils/lib/commom/async/wait';
+import { ProxiesManager } from '../_class/ProxiesManager'
+import { ProxiesPool } from '../_class/ProxiesPool'
 
 describe('test pool', () => {
     const pool = new ProxiesPool();
+    // const pool = new ProxiesManager().getDefaultPool();
+
     it('should simply works - 01', async function () {
         const target = {
             a: 1

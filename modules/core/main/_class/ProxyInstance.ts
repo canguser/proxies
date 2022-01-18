@@ -14,7 +14,7 @@ export class ProxyInstance {
     private interceptorsMap = new Map<any[], { [identity: string]: { [key: string]: (...args) => any } }>();
     public readonly proxy;
 
-    constructor(target: object, protected pool: ProxiesPool) {
+    constructor(public readonly target: object, protected pool: ProxiesPool) {
         const handlers = fromEntries(
             proxyMethods.map((method) => [
                 method,
@@ -139,6 +139,7 @@ export class ProxyInstance {
                                     propertyChain,
                                     value,
                                     oldValue: Reflect.get(target, property),
+                                    target,
                                     proxy: this.proxy,
                                     pool: this.pool,
                                     preventDefault,

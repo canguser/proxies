@@ -1,5 +1,6 @@
 import { ProxiesManager } from './ProxiesManager';
 import { ProxyInstance } from './ProxyInstance';
+import { linkRelationShip, linkTheSame, traverseRelationship } from '../_common';
 
 export interface PoolOptions {
     readonly?: boolean;
@@ -14,22 +15,24 @@ const defaultOptions: PoolOptions = {
 export class ProxiesPool {
     object2proxyMap = new WeakMap<object, object>();
     proxy2objectMap = new WeakMap<object, object>();
-    proxy2instanceMap = new WeakMap<object, ProxyInstance>();
 
+    // following 2 are using without manager
+    proxy2instanceMap = new WeakMap<object, ProxyInstance>();
     proxyRelationshipMap = new WeakMap<object, Map<object, any>>();
+
     private readonly options: PoolOptions;
 
-    constructor(protected manager?: ProxiesManager, options: PoolOptions = {}) {
+    constructor(public readonly manager?: ProxiesManager, options: PoolOptions = {}) {
         this.options = { ...defaultOptions, ...options };
     }
 
     proxy<T extends object>(object: T): T {
-        if (this.has(object)) {
-            return this.getProxy(object);
-        }
-
         if (this.manager) {
             object = this.manager.getRaw(object);
+        }
+
+        if (this.has(object)) {
+            return this.getProxy(object);
         }
 
         const proxyInstance = new ProxyInstance(object, this);
@@ -39,8 +42,7 @@ export class ProxiesPool {
         this.object2proxyMap.set(object, proxy);
 
         if (this.manager) {
-            this.manager.linkProxy(proxy, object);
-            this.manager.linkPool(proxy, this);
+            this.manager.linkPoolProxyInstance(this, proxyInstance);
         }
 
         if (this.options.shallow) {
@@ -50,8 +52,7 @@ export class ProxiesPool {
         Object.keys(object).forEach((key) => {
             const value = object[key];
             if (typeof value === 'object') {
-                const target = this.proxy(value);
-                this.linkRelationShip(target, key, proxy);
+                this.genLinkedProxy(value, key, proxy);
             }
         });
 
@@ -59,20 +60,20 @@ export class ProxiesPool {
             get: ({ lastReturnValue, preventDefault, proxy, directProperty }) => {
                 if (typeof lastReturnValue === 'object') {
                     preventDefault();
-                    const result = this.proxy(lastReturnValue);
-                    this.linkRelationShip(result, directProperty, proxy);
-                    return result;
+                    return this.genLinkedProxy(lastReturnValue, directProperty, proxy);
                 }
             },
-            set: ({ directProperty, proxy, value, preventDefault }) => {
+            set: ({ directProperty, proxy, value, preventDefault, target }) => {
                 if (this.options.readonly) {
                     preventDefault();
                     console.warn(`Target object is readonly. Property "${directProperty}" is not writable.`);
                     return true;
                 }
                 if (typeof value === 'object') {
-                    const result = this.proxy(value);
-                    this.linkRelationShip(result, directProperty, proxy);
+                    const raw = this.getRaw(this.genLinkedProxy(value, directProperty, proxy));
+                    preventDefault();
+                    target[directProperty] = raw;
+                    return true
                 }
             }
         });
@@ -80,32 +81,49 @@ export class ProxiesPool {
         return proxy;
     }
 
-    linkRelationShip(object: object, property: any, parent: object) {
-        if (!this.has(object) || !this.has(parent)) {
+    genLinkedProxy(object: object, property: any, parentProxy: object): object {
+        const result = this.proxy(object);
+        if (this.manager && this.manager.hasProxy(object) && !this.has(object)) {
+            this.linkTheSame(object, result);
+        }
+        this.linkRelationShip(result, property, parentProxy);
+        return result;
+    }
+
+    linkTheSame(proxy1: object, proxy2: object) {
+        if (this.manager) {
+            this.manager.linkTheSame(proxy1, proxy2);
+            return;
+        }
+        if (!this.has(proxy1) || !this.has(proxy2)) {
+            console.warn('Proxy is not in pool.');
+            return;
+        }
+        linkTheSame(this.proxyRelationshipMap, proxy1, proxy2);
+    }
+
+    linkRelationShip(proxy: object, property: any, parentProxy: object) {
+        if (this.manager) {
+            this.manager.linkRelationShip(proxy, property, parentProxy);
+            return;
+        }
+        if (!this.has(proxy) || !this.has(parentProxy)) {
             console.warn('[ProxiesPool] linkRelationShip: object or parent is not a proxy from this pool');
             return;
         }
-        object = this.getProxy(object);
-        parent = this.getProxy(parent);
-        if (!this.proxyRelationshipMap.has(object)) {
-            this.proxyRelationshipMap.set(object, new Map());
-        }
-        const relationshipMap = this.proxyRelationshipMap.get(object);
-        relationshipMap.set(parent, property);
+        linkRelationShip(this.proxyRelationshipMap, proxy, property, parentProxy);
     }
 
-    traverseParent(object: object, callback: (parent: object, propertyChain: any[]) => void, propertyChain = []) {
-        if (!this.has(object)) {
-            console.warn('[ProxiesPool] traverseParent: object is not a proxy from this pool');
+    traverseRelationship(proxy: object, callback: (parent: object, propertyChain: any[]) => void, propertyChain = []) {
+        if (this.manager) {
+            this.manager.traverseRelationship(proxy, callback, propertyChain);
             return;
         }
-        if (this.proxyRelationshipMap.has(object)) {
-            const relationshipMap = this.proxyRelationshipMap.get(object);
-            relationshipMap.forEach((property, parent) => {
-                callback(parent, [property, ...propertyChain]);
-                this.traverseParent(parent, callback, [property, ...propertyChain]);
-            });
+        if (!this.has(proxy)) {
+            console.warn('[ProxiesPool] traverseRelationship: object is not a proxy from this pool');
+            return;
         }
+        traverseRelationship(this.proxyRelationshipMap, proxy, callback, propertyChain);
     }
 
     subscribe(object: object, propertyChain: any[] | string, setter: Function): string;
@@ -185,8 +203,7 @@ export class ProxiesPool {
             return;
         }
         const [, property] = args;
-        instance.notifySubscriber([property], type, args);
-        this.traverseParent(
+        this.traverseRelationship(
             proxy,
             (parent, propertyChain) => {
                 const instance = this.getInstance(parent);
@@ -203,8 +220,8 @@ export class ProxiesPool {
             return;
         }
         const [, property] = args;
-        let results = [instance.notifyInterceptor([property], type, args)];
-        this.traverseParent(
+        let results = [];
+        this.traverseRelationship(
             proxy,
             (parent, propertyChain) => {
                 const instance = this.getInstance(parent);
@@ -233,6 +250,9 @@ export class ProxiesPool {
     }
 
     getInstance(object: object): ProxyInstance {
+        if (this.manager) {
+            return this.manager.getInstance(object);
+        }
         if (this.has(object)) {
             return this.proxy2instanceMap.get(this.getProxy(object));
         }
