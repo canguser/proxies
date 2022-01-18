@@ -1,26 +1,52 @@
 import { ProxiesManager } from './ProxiesManager';
 import { ProxyInstance } from './ProxyInstance';
 
+export interface PoolOptions {
+    readonly?: boolean;
+    shallow?: boolean;
+}
+
+const defaultOptions: PoolOptions = {
+    readonly: false,
+    shallow: false
+};
+
 export class ProxiesPool {
     object2proxyMap = new WeakMap<object, object>();
     proxy2objectMap = new WeakMap<object, object>();
     proxy2instanceMap = new WeakMap<object, ProxyInstance>();
 
     proxyRelationshipMap = new WeakMap<object, Map<object, any>>();
+    private readonly options: PoolOptions;
 
-    constructor(protected manager?: ProxiesManager) {}
+    constructor(protected manager?: ProxiesManager, options: PoolOptions = {}) {
+        this.options = { ...defaultOptions, ...options };
+    }
 
     proxy<T extends object>(object: T): T {
         if (this.has(object)) {
             return this.getProxy(object);
         }
+
+        if (this.manager) {
+            object = this.manager.getRaw(object);
+        }
+
         const proxyInstance = new ProxyInstance(object, this);
         const proxy = proxyInstance.proxy;
         this.proxy2instanceMap.set(proxy, proxyInstance);
         this.proxy2objectMap.set(proxy, object);
         this.object2proxyMap.set(object, proxy);
 
-        Object.keys(object).forEach(key => {
+        if (this.manager) {
+            this.manager.linkProxy(proxy, object);
+        }
+
+        if (this.options.shallow) {
+            return;
+        }
+
+        Object.keys(object).forEach((key) => {
             const value = object[key];
             if (typeof value === 'object') {
                 const target = this.proxy(value);
@@ -37,12 +63,17 @@ export class ProxiesPool {
                     return result;
                 }
             },
-            set: ({ directProperty, proxy, value }) => {
+            set: ({ directProperty, proxy, value, preventDefault }) => {
+                if (this.options.readonly) {
+                    preventDefault();
+                    console.warn(`Target object is readonly. Property "${directProperty}" is not writable.`);
+                    return false;
+                }
                 if (typeof value === 'object') {
                     const result = this.proxy(value);
                     this.linkRelationShip(result, directProperty, proxy);
                 }
-            },
+            }
         });
 
         return proxy;
@@ -76,6 +107,8 @@ export class ProxiesPool {
         }
     }
 
+    subscribe(object: object, propertyChain: any[] | string, setter: Function): string;
+
     subscribe(object: object, propertyChain: any[] | string, handlers: { [key: string]: Function }): string;
 
     subscribe(object: object, handlers: { [key: string]: Function }): string;
@@ -92,10 +125,15 @@ export class ProxiesPool {
         }
         if (args.length === 2) {
             const [propertyChain, handlers] = args;
+            if (typeof handlers === 'function') {
+                return instance.subscribe(false, propertyChain, { set: handlers });
+            }
             return instance.subscribe(false, propertyChain, handlers);
         }
         console.warn(`Invalid arguments for subscribe`);
     }
+
+    intercept(object: object, propertyChain: any[] | string, setter: Function): string;
 
     intercept(object: object, propertyChain: any[] | string, handlers: { [key: string]: Function }): string;
 
@@ -113,6 +151,9 @@ export class ProxiesPool {
         }
         if (args.length === 2) {
             const [propertyChain, handlers] = args;
+            if (typeof handlers === 'function') {
+                return instance.intercept(false, propertyChain, { set: handlers });
+            }
             return instance.intercept(false, propertyChain, handlers);
         }
         console.warn(`Invalid arguments for intercept`);
@@ -144,10 +185,14 @@ export class ProxiesPool {
         }
         const [, property] = args;
         instance.notifySubscriber([property], type, args);
-        this.traverseParent(proxy, (parent, propertyChain) => {
-            const instance = this.getInstance(parent);
-            instance.notifySubscriber(propertyChain, type, args);
-        }, [property]);
+        this.traverseParent(
+            proxy,
+            (parent, propertyChain) => {
+                const instance = this.getInstance(parent);
+                instance.notifySubscriber(propertyChain, type, args);
+            },
+            [property]
+        );
     }
 
     notifyInterceptor(proxy: object, type: string, args: any[]) {
@@ -158,14 +203,20 @@ export class ProxiesPool {
         }
         const [, property] = args;
         let results = [instance.notifyInterceptor([property], type, args)];
-        this.traverseParent(proxy, (parent, propertyChain) => {
-            const instance = this.getInstance(parent);
-            results.push(instance.notifyInterceptor(propertyChain, type, args));
-        }, [property]);
-        return results.find((result) => result?.preventDefault) || {
-            preventDefault: false,
-            returnValue: undefined,
-        };
+        this.traverseParent(
+            proxy,
+            (parent, propertyChain) => {
+                const instance = this.getInstance(parent);
+                results.push(instance.notifyInterceptor(propertyChain, type, args));
+            },
+            [property]
+        );
+        return (
+            results.find((result) => result?.preventDefault) || {
+                preventDefault: false,
+                returnValue: undefined
+            }
+        );
     }
 
     has(object: object): boolean {

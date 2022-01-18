@@ -1,10 +1,13 @@
-import { ProxiesPool } from './ProxiesPool'
+import { ProxiesPool } from './ProxiesPool';
 
 export class ProxiesManager {
     proxiesPoolsMap: Map<string, ProxiesPool> = new Map<string, ProxiesPool>();
+    proxy2objectMap = new WeakMap<object, object>();
 
     constructor() {
         this.proxiesPoolsMap.set('default', new ProxiesPool(this));
+        this.proxiesPoolsMap.set('readonly', new ProxiesPool(this, { readonly: true }));
+        this.proxiesPoolsMap.set('shallow', new ProxiesPool(this, { shallow: true }));
     }
 
     getDefaultPool(): ProxiesPool {
@@ -24,5 +27,69 @@ export class ProxiesManager {
         return newPool;
     }
 
+    linkProxy(proxy: object, object: object) {
+        this.proxy2objectMap.set(proxy, object);
+    }
 
+    hasProxy(proxy: object): boolean {
+        return this.proxy2objectMap.has(proxy);
+    }
+
+    getRaw<T extends object>(object: T): T {
+        if (this.hasProxy(object)) {
+            return this.getRaw(this.proxy2objectMap.get(object) as T);
+        }
+        return object;
+    }
+
+    subscribe(object: object, propertyChain: any[] | string, setter: Function): string;
+
+    subscribe(object: object, propertyChain: any[] | string, handlers: { [key: string]: Function }): string;
+
+    subscribe(object: object, handlers: { [key: string]: Function }): string;
+
+    subscribe(object: object, ...args): string {
+        const pool = this.getDefaultPool();
+        return pool.subscribe.apply(pool, [object, ...args]);
+    }
+
+    intercept(object: object, propertyChain: any[] | string, setter: Function): string;
+
+    intercept(object: object, propertyChain: any[] | string, handlers: { [key: string]: Function }): string;
+
+    intercept(object: object, handlers: { [key: string]: Function }): string;
+
+    intercept(object: object, ...args): string {
+        const pool = this.getDefaultPool();
+        return pool.intercept.apply(pool, [object, ...args]);
+    }
+
+    unsubscribe(object: object, subscriptionId: string): void {
+        const pool = [...this.proxiesPoolsMap.values()].find((pool) => pool.has(object));
+        if (pool) {
+            pool.unsubscribe(object, subscriptionId);
+        }
+    }
+
+    cancelIntercept(object: object, subscriptionId: string): void {
+        const pool = [...this.proxiesPoolsMap.values()].find((pool) => pool.has(object));
+        if (pool) {
+            pool.cancelIntercept(object, subscriptionId);
+        }
+    }
+
+    proxy<T extends object>(object: T): T {
+        const pool = this.getDefaultPool();
+        return pool.proxy(object);
+    }
+
+    readonly<T extends object>(object: T): T {
+        const pool = this.getPool('readonly');
+        return pool.proxy(object);
+    }
+
+    shallow<T extends object>(object: T): T {
+        const pool = this.getPool('shallow');
+        return pool.proxy(object);
+    }
 }
