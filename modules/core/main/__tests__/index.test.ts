@@ -92,40 +92,39 @@ describe('test index', () => {
         let a = 1;
         const p = proxy({ a: 1, b: 2, c: { d: 3, e: { f: 4 } } });
 
-        intercept(p, 'c.e.f', ({ value, preventDefault, directTarget, directProperty, lastReturnValue }) => {
+        intercept(p, 'c.e.f', ({ value, preventDefault, lastReturnValue }) => {
             expect(a++).toBe(5);
-            expect(lastReturnValue).toBe(false);
+            expect(lastReturnValue).toBe(2);
             preventDefault();
-            directTarget[directProperty] = value + 1;
-            return true;
+            return value + 1;
         });
 
         intercept(p.c, ({ value, preventDefault }) => {
             expect(value).toBe(2);
             expect(a++).toBe(4);
             preventDefault();
-            return false;
+            return value;
         });
 
         intercept(p.c, 'e.f', ({ value, preventDefault }) => {
             expect(value).toBe(2);
             expect(a++).toBe(3);
             preventDefault();
-            return false;
+            return value;
         });
 
         intercept(p.c.e, 'f', ({ value, preventDefault }) => {
             expect(value).toBe(2);
             expect(a++).toBe(2);
             preventDefault();
-            return false;
+            return value;
         });
 
         intercept(p.c.e, ({ value, preventDefault }) => {
             expect(value).toBe(2);
             expect(a++).toBe(1);
             preventDefault();
-            return false;
+            return value;
         });
 
         p.c.e.f = 2;

@@ -64,17 +64,16 @@ export class ProxiesPool {
                     return this.genLinkedProxy(lastReturnValue, directProperty, proxy);
                 }
             },
-            set: ({ directProperty, proxy, value, preventDefault, directTarget }) => {
+            set: ({ directProperty, proxy, value, preventDefault, notModifiedValue }) => {
                 if (this.options.readonly) {
                     preventDefault();
                     console.warn(`Target object is readonly. Property "${directProperty}" is not writable.`);
-                    return true;
+                    return notModifiedValue;
                 }
                 if (typeof value === 'object') {
                     const raw = this.getRaw(this.genLinkedProxy(value, directProperty, proxy));
                     preventDefault();
-                    directTarget[directProperty] = raw;
-                    return true;
+                    return raw;
                 }
             }
         });
@@ -105,14 +104,14 @@ export class ProxiesPool {
 
     linkRelationShip(proxy: object, property: any, parentProxy: object) {
         if (this.manager) {
-            this.manager.linkRelationShip(proxy, property, parentProxy);
+            this.manager.linkRelationShip(proxy, [property], parentProxy);
             return;
         }
         if (!this.has(proxy) || !this.has(parentProxy)) {
             console.warn('[ProxiesPool] linkRelationShip: object or parent is not a proxy from this pool');
             return;
         }
-        linkRelationShip(this.proxyRelationshipMap, proxy, property, parentProxy);
+        linkRelationShip(this.proxyRelationshipMap, proxy, [property], parentProxy);
     }
 
     traverseRelationship(proxy: object, callback: (parent: object, propertyChain: any[]) => void, propertyChain = []) {

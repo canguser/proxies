@@ -7,6 +7,7 @@
 ### Variables
 
 - [LIB\_NAME](index.md#lib_name)
+- [manager](index.md#manager)
 
 ### Functions
 
@@ -30,7 +31,17 @@
 
 #### Defined in
 
-[index.ts:48](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/index.ts#L48)
+[index.ts:48](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/index.ts#L48)
+
+___
+
+### manager
+
+• `Const` **manager**: [`ProxiesManager`](../classes/_class_ProxiesManager.ProxiesManager.md)
+
+#### Defined in
+
+[index.ts:32](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/index.ts#L32)
 
 ## Functions
 
@@ -51,7 +62,7 @@
 
 #### Defined in
 
-[index.ts:23](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/index.ts#L23)
+[index.ts:23](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/index.ts#L23)
 
 ___
 
@@ -71,7 +82,7 @@ ___
 
 #### Defined in
 
-[index.ts:28](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/index.ts#L28)
+[index.ts:28](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/index.ts#L28)
 
 ___
 
@@ -85,7 +96,7 @@ ___
 
 #### Defined in
 
-[index.ts:30](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/index.ts#L30)
+[index.ts:30](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/index.ts#L30)
 
 ___
 
@@ -105,7 +116,7 @@ ___
 
 #### Defined in
 
-[index.ts:29](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/index.ts#L29)
+[index.ts:29](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/index.ts#L29)
 
 ___
 
@@ -125,7 +136,7 @@ ___
 
 #### Defined in
 
-[index.ts:27](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/index.ts#L27)
+[index.ts:27](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/index.ts#L27)
 
 ___
 
@@ -147,7 +158,7 @@ ___
 
 #### Defined in
 
-[index.ts:5](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/index.ts#L5)
+[index.ts:5](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/index.ts#L5)
 
 ▸ **intercept**(`object`, `propertyChain`, `handlers`): `string`
 
@@ -165,7 +176,7 @@ ___
 
 #### Defined in
 
-[index.ts:6](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/index.ts#L6)
+[index.ts:6](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/index.ts#L6)
 
 ▸ **intercept**(`object`, `handlers`): `string`
 
@@ -182,7 +193,7 @@ ___
 
 #### Defined in
 
-[index.ts:11](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/index.ts#L11)
+[index.ts:11](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/index.ts#L11)
 
 ▸ **intercept**(`object`, `setter`): `string`
 
@@ -199,7 +210,7 @@ ___
 
 #### Defined in
 
-[index.ts:12](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/index.ts#L12)
+[index.ts:12](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/index.ts#L12)
 
 ___
 
@@ -225,7 +236,7 @@ ___
 
 #### Defined in
 
-[index.ts:24](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/index.ts#L24)
+[index.ts:24](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/index.ts#L24)
 
 ___
 
@@ -251,7 +262,7 @@ ___
 
 #### Defined in
 
-[index.ts:25](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/index.ts#L25)
+[index.ts:25](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/index.ts#L25)
 
 ___
 
@@ -277,7 +288,7 @@ ___
 
 #### Defined in
 
-[index.ts:26](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/index.ts#L26)
+[index.ts:26](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/index.ts#L26)
 
 ___
 
@@ -299,7 +310,7 @@ ___
 
 #### Defined in
 
-[index.ts:14](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/index.ts#L14)
+[index.ts:14](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/index.ts#L14)
 
 ▸ **subscribe**(`object`, `propertyChain`, `handlers`): `string`
 
@@ -317,7 +328,7 @@ ___
 
 #### Defined in
 
-[index.ts:15](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/index.ts#L15)
+[index.ts:15](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/index.ts#L15)
 
 ▸ **subscribe**(`object`, `handlers`): `string`
 
@@ -334,7 +345,7 @@ ___
 
 #### Defined in
 
-[index.ts:20](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/index.ts#L20)
+[index.ts:20](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/index.ts#L20)
 
 ▸ **subscribe**(`object`, `setter`): `string`
 
@@ -351,7 +362,7 @@ ___
 
 #### Defined in
 
-[index.ts:21](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/index.ts#L21)
+[index.ts:21](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/index.ts#L21)
 
 ___
 
@@ -372,4 +383,4 @@ ___
 
 #### Defined in
 
-[index.ts:22](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/index.ts#L22)
+[index.ts:22](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/index.ts#L22)

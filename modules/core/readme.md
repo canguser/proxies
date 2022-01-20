@@ -49,12 +49,10 @@ proxy.b.c = 4;
 ```javascript
 import {proxy, intercept} from '@proxies/core';
 const proxy = proxy({b:{c:2}});
-intercept(proxy, 'b.c', (value, preventDefault, directTarget, directProperty)=>{
+intercept(proxy, 'b.c', (value, preventDefault)=>{
     preventDefault() // 阻止默认操作
     // 设置新值
-    directTarget[directProperty] = value + 1;
-    // 返回是否允许修改，这里的逻辑和 Proxy 中的 Setter 一致
-    return true;
+    return value + 1;
 })
 
 a.b.c = 3;

@@ -1,3 +1,4 @@
+import { ProxiesManager } from './_class/ProxiesManager';
 import { ProxiesPool } from './_class/ProxiesPool';
 export declare function intercept(object: object, propertyChain: any[] | string, setter: Function): string;
 export declare function intercept(object: object, propertyChain: any[] | string, handlers: {
@@ -24,4 +25,5 @@ export declare function hasProxy(proxy: object): boolean;
 export declare function createPool(poolName: string): ProxiesPool;
 export declare function getPool(poolName: string): ProxiesPool;
 export declare function getDefaultPool(): ProxiesPool;
+export declare const manager: ProxiesManager;
 export declare const LIB_NAME = "@proxies/core";

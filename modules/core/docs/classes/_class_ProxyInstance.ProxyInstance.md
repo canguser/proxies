@@ -44,7 +44,7 @@
 
 #### Defined in
 
-[_class/ProxyInstance.ts:17](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxyInstance.ts#L17)
+[_class/ProxyInstance.ts:17](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxyInstance.ts#L17)
 
 ## Properties
 
@@ -58,7 +58,7 @@
 
 #### Defined in
 
-[_class/ProxyInstance.ts:12](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxyInstance.ts#L12)
+[_class/ProxyInstance.ts:12](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxyInstance.ts#L12)
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 #### Defined in
 
-[_class/ProxyInstance.ts:11](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxyInstance.ts#L11)
+[_class/ProxyInstance.ts:11](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxyInstance.ts#L11)
 
 ___
 
@@ -82,7 +82,7 @@ ___
 
 #### Defined in
 
-[_class/ProxyInstance.ts:14](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxyInstance.ts#L14)
+[_class/ProxyInstance.ts:14](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxyInstance.ts#L14)
 
 ___
 
@@ -98,7 +98,7 @@ ___
 
 #### Defined in
 
-[_class/ProxyInstance.ts:15](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxyInstance.ts#L15)
+[_class/ProxyInstance.ts:15](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxyInstance.ts#L15)
 
 ___
 
@@ -108,7 +108,7 @@ ___
 
 #### Defined in
 
-[_class/ProxyInstance.ts:13](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxyInstance.ts#L13)
+[_class/ProxyInstance.ts:13](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxyInstance.ts#L13)
 
 ___
 
@@ -134,7 +134,7 @@ ___
 
 #### Defined in
 
-[_class/ProxyInstance.ts:232](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxyInstance.ts#L232)
+[_class/ProxyInstance.ts:232](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxyInstance.ts#L232)
 
 ___
 
@@ -156,7 +156,7 @@ ___
 
 #### Defined in
 
-[_class/ProxyInstance.ts:205](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxyInstance.ts#L205)
+[_class/ProxyInstance.ts:205](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxyInstance.ts#L205)
 
 ___
 
@@ -179,7 +179,7 @@ ___
 
 #### Defined in
 
-[_class/ProxyInstance.ts:100](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxyInstance.ts#L100)
+[_class/ProxyInstance.ts:100](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxyInstance.ts#L100)
 
 ___
 
@@ -201,7 +201,7 @@ ___
 
 #### Defined in
 
-[_class/ProxyInstance.ts:41](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxyInstance.ts#L41)
+[_class/ProxyInstance.ts:41](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxyInstance.ts#L41)
 
 ___
 
@@ -223,7 +223,7 @@ ___
 
 #### Defined in
 
-[_class/ProxyInstance.ts:190](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxyInstance.ts#L190)
+[_class/ProxyInstance.ts:190](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxyInstance.ts#L190)
 
 ___
 
@@ -243,4 +243,4 @@ ___
 
 #### Defined in
 
-[_class/ProxyInstance.ts:220](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxyInstance.ts#L220)
+[_class/ProxyInstance.ts:220](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxyInstance.ts#L220)

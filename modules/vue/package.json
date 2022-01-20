@@ -35,7 +35,8 @@
   ],
   "types": "types/index.d.ts",
   "dependencies": {
-    "@rapidly/utils": "2.0.0-beta2"
+    "@rapidly/utils": "2.0.0-beta2",
+    "@proxies/core": "1.0.0-beta"
   },
   "devDependencies": {
     "@vue/reactivity": "^3.2.27"

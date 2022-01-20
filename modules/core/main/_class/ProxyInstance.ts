@@ -6,6 +6,7 @@ import { genStrategyMapper } from '@rapidly/utils/lib/commom/genStrategyMapper';
 import { parseKeyChain } from '@rapidly/utils/lib/commom/parseKeyChain';
 
 const proxyMethods = ['get', 'set', 'has', 'deleteProperty', 'getOwnPropertyDescriptor', 'defineProperty'];
+const FALSY_RETURN_VALUE = Object.freeze(Object.create(null));
 
 export class ProxyInstance {
     private allSubscribersMap: { [identity: string]: { [key: string]: (...args) => any } } = {};
@@ -24,13 +25,28 @@ export class ProxyInstance {
                         oldValue = Reflect['get'](args[0], args[1]);
                     }
                     let realReturnValue;
-                    const { preventDefault, returnValue } = this.pool.notifyInterceptor(this.proxy, method, args);
+                    const { preventDefault, returnValue } = this.pool.notifyInterceptor(this.proxy, method, [
+                        ...args,
+                        oldValue
+                    ]);
                     if (preventDefault) {
-                        realReturnValue = returnValue;
+                        if (method === 'set') {
+                            if (returnValue === FALSY_RETURN_VALUE) {
+                                realReturnValue = true;
+                            } else {
+                                realReturnValue = Reflect['set'](args[0], args[1], returnValue);
+                            }
+                        } else {
+                            realReturnValue = returnValue;
+                        }
                     } else {
                         realReturnValue = Reflect[method](...args);
                     }
-                    Promise.resolve().then(() => this.pool.notifySubscriber(this.proxy, method, [...args, oldValue]));
+                    try {
+                        this.pool.notifySubscriber(this.proxy, method, [...args, oldValue]);
+                    } catch (e) {
+                        console.warn(e);
+                    }
                     return realReturnValue;
                 }
             ])
@@ -122,6 +138,7 @@ export class ProxyInstance {
                         directTarget: target,
                         directProperty: property,
                         property: propertyChain.join('.'),
+                        propertyChain,
                         lastReturnValue,
                         proxy: this.proxy,
                         pool: this.pool,
@@ -136,7 +153,7 @@ export class ProxyInstance {
                                     {
                                         ...defaultParams,
                                         getterValue,
-                                        lastReturnValue: lastReturnValue ? lastReturnValue : getterValue
+                                        lastReturnValue: pd ? lastReturnValue : getterValue
                                     },
                                     ...args
                                 );
@@ -146,12 +163,14 @@ export class ProxyInstance {
                                 };
                             },
                             set: () => {
-                                const [target, property, value] = args;
+                                const [, , value, , oldValue] = args;
                                 const returnValue = handler(
                                     {
                                         ...defaultParams,
-                                        value,
-                                        oldValue: Reflect.get(target, property)
+                                        oldValue,
+                                        value: pd ? lastReturnValue : value,
+                                        notModifiedValue: FALSY_RETURN_VALUE,
+                                        lastReturnValue: pd ? lastReturnValue : value
                                     },
                                     ...args
                                 );

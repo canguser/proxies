@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[_class/ProxiesPool.ts:7](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L7)
+[_class/ProxiesPool.ts:7](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesPool.ts#L7)
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:8](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L8)
+[_class/ProxiesPool.ts:8](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesPool.ts#L8)

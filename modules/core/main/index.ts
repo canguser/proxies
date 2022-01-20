@@ -29,7 +29,7 @@ export declare function createPool(poolName: string): ProxiesPool;
 export declare function getPool(poolName: string): ProxiesPool;
 export declare function getDefaultPool(): ProxiesPool;
 
-const manager = new ProxiesManager();
+export const manager = new ProxiesManager();
 
 const methods = [
     'intercept',

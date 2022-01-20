@@ -1,18 +1,19 @@
 export function linkRelationShip(
-    targetMap: WeakMap<object, Map<object, any>>,
+    targetMap: WeakMap<object, Map<object, any[][]>>,
     child: object,
-    property: any,
-    parent: object
+    parentProperties: any[],
+    parent: object,
+    childProperties?: any[]
 ) {
     if (!targetMap.has(child)) {
         targetMap.set(child, new Map());
     }
     const relationshipMap = targetMap.get(child);
-    relationshipMap.set(parent, property);
+    relationshipMap.set(parent, [parentProperties || [], childProperties || []]);
 }
 
 export function traverseRelationship(
-    targetMap: WeakMap<object, Map<object, any>>,
+    targetMap: WeakMap<object, Map<object, any[][]>>,
     target: object,
     callback: (parent: object, propertyChain: any[]) => void,
     propertyChain = [],
@@ -24,14 +25,21 @@ export function traverseRelationship(
     );
     if (targetMap.has(target)) {
         const relationshipMap = targetMap.get(target);
-        relationshipMap.forEach((property, parent) => {
+        relationshipMap.forEach(([parentProperties = [], childProperties = []], parent) => {
             // prevent infinite loop
             if (!passedTargets.includes(parent)) {
+                if (
+                    childProperties.every((p, index) => {
+                        return p === propertyChain[index];
+                    })
+                ) {
+                    propertyChain.splice(0, childProperties.length);
+                }
                 traverseRelationship(
                     targetMap,
                     parent,
                     callback,
-                    [property, ...propertyChain].filter((p) => p != null),
+                    [...parentProperties, ...propertyChain].filter((p) => p != null),
                     [...passedTargets, target]
                 );
             }
@@ -46,9 +54,9 @@ export function linkTheSame(
     unidirectional: boolean = false
 ) {
     if (target1 !== target2) {
-        linkRelationShip(targetMap, target1, null, target2);
+        linkRelationShip(targetMap, target1, null, target2, null);
         if (!unidirectional) {
-            linkRelationShip(targetMap, target2, null, target1);
+            linkRelationShip(targetMap, target2, null, target1, null);
         }
     }
 }

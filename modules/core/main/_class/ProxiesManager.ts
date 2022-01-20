@@ -43,12 +43,12 @@ export class ProxiesManager {
         return this.proxy2instanceMap.get(proxy);
     }
 
-    linkRelationShip(proxy: object, property: any, parentProxy: object) {
+    linkRelationShip(proxy: object, parentProperties: any[], parentProxy: object, childProperties?: any[]) {
         if (!this.hasProxy(proxy) || !this.hasProxy(parentProxy)) {
             console.warn('[ProxiesManager] linkRelationShip: object or parent is not a proxy from this manager');
             return;
         }
-        linkRelationShip(this.proxyRelationshipMap, proxy, property, parentProxy);
+        linkRelationShip(this.proxyRelationshipMap, proxy, parentProperties, parentProxy, childProperties);
     }
 
     linkTheSame(proxy1: object, proxy2: object, unidirectional: boolean = false) {

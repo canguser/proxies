@@ -46,7 +46,7 @@
 
 #### Defined in
 
-[_class/ProxiesManager.ts:12](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L12)
+[_class/ProxiesManager.ts:12](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L12)
 
 ## Properties
 
@@ -56,7 +56,7 @@
 
 #### Defined in
 
-[_class/ProxiesManager.ts:6](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L6)
+[_class/ProxiesManager.ts:6](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L6)
 
 ___
 
@@ -66,7 +66,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:10](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L10)
+[_class/ProxiesManager.ts:10](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L10)
 
 ___
 
@@ -76,7 +76,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:7](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L7)
+[_class/ProxiesManager.ts:7](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L7)
 
 ___
 
@@ -86,7 +86,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:8](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L8)
+[_class/ProxiesManager.ts:8](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L8)
 
 ___
 
@@ -96,7 +96,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:9](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L9)
+[_class/ProxiesManager.ts:9](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L9)
 
 ## Methods
 
@@ -117,7 +117,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:120](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L120)
+[_class/ProxiesManager.ts:120](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L120)
 
 ___
 
@@ -137,7 +137,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:26](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L26)
+[_class/ProxiesManager.ts:26](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L26)
 
 ___
 
@@ -151,7 +151,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:18](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L18)
+[_class/ProxiesManager.ts:18](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L18)
 
 ___
 
@@ -171,7 +171,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:42](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L42)
+[_class/ProxiesManager.ts:42](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L42)
 
 ___
 
@@ -191,7 +191,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:22](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L22)
+[_class/ProxiesManager.ts:22](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L22)
 
 ___
 
@@ -217,7 +217,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:74](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L74)
+[_class/ProxiesManager.ts:74](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L74)
 
 ___
 
@@ -237,7 +237,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:70](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L70)
+[_class/ProxiesManager.ts:70](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L70)
 
 ___
 
@@ -259,7 +259,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:97](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L97)
+[_class/ProxiesManager.ts:97](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L97)
 
 ▸ **intercept**(`object`, `propertyChain`, `handlers`): `string`
 
@@ -277,7 +277,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:99](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L99)
+[_class/ProxiesManager.ts:99](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L99)
 
 ▸ **intercept**(`object`, `handlers`): `string`
 
@@ -294,7 +294,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:101](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L101)
+[_class/ProxiesManager.ts:101](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L101)
 
 ▸ **intercept**(`object`, `setter`): `string`
 
@@ -311,7 +311,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:103](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L103)
+[_class/ProxiesManager.ts:103](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L103)
 
 ___
 
@@ -332,7 +332,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:35](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L35)
+[_class/ProxiesManager.ts:35](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L35)
 
 ___
 
@@ -354,7 +354,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:46](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L46)
+[_class/ProxiesManager.ts:46](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L46)
 
 ___
 
@@ -376,7 +376,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:54](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L54)
+[_class/ProxiesManager.ts:54](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L54)
 
 ___
 
@@ -402,7 +402,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:127](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L127)
+[_class/ProxiesManager.ts:127](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L127)
 
 ___
 
@@ -428,7 +428,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:132](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L132)
+[_class/ProxiesManager.ts:132](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L132)
 
 ___
 
@@ -454,7 +454,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:137](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L137)
+[_class/ProxiesManager.ts:137](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L137)
 
 ___
 
@@ -476,7 +476,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:81](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L81)
+[_class/ProxiesManager.ts:81](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L81)
 
 ▸ **subscribe**(`object`, `propertyChain`, `handlers`): `string`
 
@@ -494,7 +494,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:83](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L83)
+[_class/ProxiesManager.ts:83](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L83)
 
 ▸ **subscribe**(`object`, `handlers`): `string`
 
@@ -511,7 +511,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:85](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L85)
+[_class/ProxiesManager.ts:85](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L85)
 
 ▸ **subscribe**(`object`, `setter`): `string`
 
@@ -528,7 +528,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:87](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L87)
+[_class/ProxiesManager.ts:87](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L87)
 
 ___
 
@@ -550,7 +550,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:62](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L62)
+[_class/ProxiesManager.ts:62](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L62)
 
 ___
 
@@ -571,4 +571,4 @@ ___
 
 #### Defined in
 
-[_class/ProxiesManager.ts:113](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesManager.ts#L113)
+[_class/ProxiesManager.ts:113](https://github.com/canguser/proxies/blob/1b266c2/modules/core/main/_class/ProxiesManager.ts#L113)
