@@ -54,7 +54,7 @@
 
 #### Defined in
 
-[_class/ProxiesPool.ts:26](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L26)
+[_class/ProxiesPool.ts:26](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L26)
 
 ## Properties
 
@@ -70,7 +70,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:17](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L17)
+[_class/ProxiesPool.ts:17](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L17)
 
 ___
 
@@ -80,7 +80,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:24](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L24)
+[_class/ProxiesPool.ts:24](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L24)
 
 ___
 
@@ -90,7 +90,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:21](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L21)
+[_class/ProxiesPool.ts:21](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L21)
 
 ___
 
@@ -100,7 +100,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:18](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L18)
+[_class/ProxiesPool.ts:18](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L18)
 
 ___
 
@@ -110,7 +110,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:22](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L22)
+[_class/ProxiesPool.ts:22](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L22)
 
 ## Methods
 
@@ -131,7 +131,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:201](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L201)
+[_class/ProxiesPool.ts:201](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L201)
 
 ___
 
@@ -153,7 +153,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:85](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L85)
+[_class/ProxiesPool.ts:85](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L85)
 
 ___
 
@@ -173,7 +173,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:260](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L260)
+[_class/ProxiesPool.ts:260](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L260)
 
 ___
 
@@ -199,7 +199,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:279](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L279)
+[_class/ProxiesPool.ts:279](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L279)
 
 ___
 
@@ -225,7 +225,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:269](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L269)
+[_class/ProxiesPool.ts:269](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L269)
 
 ___
 
@@ -245,7 +245,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:248](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L248)
+[_class/ProxiesPool.ts:248](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L248)
 
 ___
 
@@ -265,7 +265,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:256](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L256)
+[_class/ProxiesPool.ts:256](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L256)
 
 ___
 
@@ -285,7 +285,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:252](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L252)
+[_class/ProxiesPool.ts:252](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L252)
 
 ___
 
@@ -307,7 +307,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:161](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L161)
+[_class/ProxiesPool.ts:161](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L161)
 
 ▸ **intercept**(`object`, `propertyChain`, `handlers`): `string`
 
@@ -325,7 +325,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:163](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L163)
+[_class/ProxiesPool.ts:163](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L163)
 
 ▸ **intercept**(`object`, `handlers`): `string`
 
@@ -342,7 +342,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:165](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L165)
+[_class/ProxiesPool.ts:165](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L165)
 
 ▸ **intercept**(`object`, `setter`): `string`
 
@@ -359,7 +359,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:167](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L167)
+[_class/ProxiesPool.ts:167](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L167)
 
 ___
 
@@ -381,7 +381,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:106](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L106)
+[_class/ProxiesPool.ts:106](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L106)
 
 ___
 
@@ -403,7 +403,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:94](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L94)
+[_class/ProxiesPool.ts:94](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L94)
 
 ___
 
@@ -425,7 +425,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:227](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L227)
+[_class/ProxiesPool.ts:227](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L227)
 
 ___
 
@@ -447,7 +447,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:210](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L210)
+[_class/ProxiesPool.ts:210](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L210)
 
 ___
 
@@ -473,7 +473,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:30](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L30)
+[_class/ProxiesPool.ts:30](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L30)
 
 ___
 
@@ -495,7 +495,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:130](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L130)
+[_class/ProxiesPool.ts:130](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L130)
 
 ▸ **subscribe**(`object`, `propertyChain`, `handlers`): `string`
 
@@ -513,7 +513,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:132](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L132)
+[_class/ProxiesPool.ts:132](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L132)
 
 ▸ **subscribe**(`object`, `handlers`): `string`
 
@@ -530,7 +530,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:134](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L134)
+[_class/ProxiesPool.ts:134](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L134)
 
 ▸ **subscribe**(`object`, `setter`): `string`
 
@@ -547,7 +547,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:136](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L136)
+[_class/ProxiesPool.ts:136](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L136)
 
 ___
 
@@ -569,7 +569,7 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:118](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L118)
+[_class/ProxiesPool.ts:118](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L118)
 
 ___
 
@@ -590,4 +590,4 @@ ___
 
 #### Defined in
 
-[_class/ProxiesPool.ts:192](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_class/ProxiesPool.ts#L192)
+[_class/ProxiesPool.ts:192](https://github.com/canguser/proxies/blob/55748c5/modules/core/main/_class/ProxiesPool.ts#L192)
