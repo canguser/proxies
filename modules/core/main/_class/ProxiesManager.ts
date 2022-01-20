@@ -51,12 +51,12 @@ export class ProxiesManager {
         linkRelationShip(this.proxyRelationshipMap, proxy, property, parentProxy);
     }
 
-    linkTheSame(proxy1: object, proxy2: object) {
+    linkTheSame(proxy1: object, proxy2: object, unidirectional: boolean = false) {
         if (!this.hasProxy(proxy1) || !this.hasProxy(proxy2)) {
             console.warn('[ProxiesManager] linkTheSame: is not a proxy from this manager');
             return;
         }
-        linkTheSame(this.proxyRelationshipMap, proxy1, proxy2);
+        linkTheSame(this.proxyRelationshipMap, proxy1, proxy2, unidirectional);
     }
 
     traverseRelationship(proxy: object, callback: (parent: object, propertyChain: any[]) => void, propertyChain = []) {
@@ -84,6 +84,8 @@ export class ProxiesManager {
 
     subscribe(object: object, handlers: { [key: string]: Function }): string;
 
+    subscribe(object: object, setter: Function): string;
+
     subscribe(object: object, ...args): string {
         const pool = this.proxy2poolMap.get(object);
         if (!pool) {
@@ -97,6 +99,8 @@ export class ProxiesManager {
     intercept(object: object, propertyChain: any[] | string, handlers: { [key: string]: Function }): string;
 
     intercept(object: object, handlers: { [key: string]: Function }): string;
+
+    intercept(object: object, setter: Function): string;
 
     intercept(object: object, ...args): string {
         const pool = this.proxy2poolMap.get(object);

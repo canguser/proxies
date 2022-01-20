@@ -39,9 +39,16 @@ export function traverseRelationship(
     }
 }
 
-export function linkTheSame(targetMap: WeakMap<object, Map<object, any>>, target1: object, target2: object) {
+export function linkTheSame(
+    targetMap: WeakMap<object, Map<object, any>>,
+    target1: object,
+    target2: object,
+    unidirectional: boolean = false
+) {
     if (target1 !== target2) {
         linkRelationShip(targetMap, target1, null, target2);
-        linkRelationShip(targetMap, target2, null, target1);
+        if (!unidirectional) {
+            linkRelationShip(targetMap, target2, null, target1);
+        }
     }
 }

@@ -1,3 +1,5 @@
+@proxies/core / [Modules](modules.md)
+
 # @proxies/core
 
 > 一个基于订阅和拦截的深度响应式框架 - 核心部分
@@ -87,7 +89,6 @@ console.log(proxy.a); // > 1
 console.log(proxy.b.c); // > 3
 
 ```
-
 
 ## 文档
 

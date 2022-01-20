@@ -1,6 +1,7 @@
 import { ProxiesManager } from './ProxiesManager';
 import { ProxyInstance } from './ProxyInstance';
 import { linkRelationShip, linkTheSame, traverseRelationship } from '../_common';
+import { InterceptResult } from '../_interface';
 
 export interface PoolOptions {
     readonly?: boolean;
@@ -63,7 +64,7 @@ export class ProxiesPool {
                     return this.genLinkedProxy(lastReturnValue, directProperty, proxy);
                 }
             },
-            set: ({ directProperty, proxy, value, preventDefault, target }) => {
+            set: ({ directProperty, proxy, value, preventDefault, directTarget }) => {
                 if (this.options.readonly) {
                     preventDefault();
                     console.warn(`Target object is readonly. Property "${directProperty}" is not writable.`);
@@ -72,8 +73,8 @@ export class ProxiesPool {
                 if (typeof value === 'object') {
                     const raw = this.getRaw(this.genLinkedProxy(value, directProperty, proxy));
                     preventDefault();
-                    target[directProperty] = raw;
-                    return true
+                    directTarget[directProperty] = raw;
+                    return true;
                 }
             }
         });
@@ -90,16 +91,16 @@ export class ProxiesPool {
         return result;
     }
 
-    linkTheSame(proxy1: object, proxy2: object) {
+    linkTheSame(proxy1: object, proxy2: object, unidirectional: boolean = false) {
         if (this.manager) {
-            this.manager.linkTheSame(proxy1, proxy2);
+            this.manager.linkTheSame(proxy1, proxy2, unidirectional);
             return;
         }
         if (!this.has(proxy1) || !this.has(proxy2)) {
             console.warn('Proxy is not in pool.');
             return;
         }
-        linkTheSame(this.proxyRelationshipMap, proxy1, proxy2);
+        linkTheSame(this.proxyRelationshipMap, proxy1, proxy2, unidirectional);
     }
 
     linkRelationShip(proxy: object, property: any, parentProxy: object) {
@@ -132,6 +133,8 @@ export class ProxiesPool {
 
     subscribe(object: object, handlers: { [key: string]: Function }): string;
 
+    subscribe(object: object, setter: Function): string;
+
     subscribe(object: object, ...args): string {
         const instance = this.getInstance(object);
         if (!instance) {
@@ -140,6 +143,9 @@ export class ProxiesPool {
         }
         if (args.length === 1) {
             const [handlers] = args;
+            if (typeof handlers === 'function') {
+                return instance.subscribe(true, [], { set: handlers });
+            }
             return instance.subscribe(true, [], handlers);
         }
         if (args.length === 2) {
@@ -158,6 +164,8 @@ export class ProxiesPool {
 
     intercept(object: object, handlers: { [key: string]: Function }): string;
 
+    intercept(object: object, setter: Function): string;
+
     intercept(object: object, ...args): string {
         const instance = this.getInstance(object);
         if (!instance) {
@@ -166,6 +174,9 @@ export class ProxiesPool {
         }
         if (args.length === 1) {
             const [handlers] = args;
+            if (typeof handlers === 'function') {
+                return instance.intercept(true, [], { set: handlers });
+            }
             return instance.intercept(true, [], handlers);
         }
         if (args.length === 2) {
@@ -213,28 +224,25 @@ export class ProxiesPool {
         );
     }
 
-    notifyInterceptor(proxy: object, type: string, args: any[]) {
+    notifyInterceptor(proxy: object, type: string, args: any[]): InterceptResult {
         const instance = this.getInstance(proxy);
         if (!instance) {
             console.warn(`Object ${proxy} is not proxied from target pool`);
             return;
         }
         const [, property] = args;
-        let results = [];
+        let result = {};
         this.traverseRelationship(
             proxy,
             (parent, propertyChain) => {
                 const instance = this.getInstance(parent);
-                results.push(instance.notifyInterceptor(propertyChain, type, args));
+                result = instance.notifyInterceptor(propertyChain, type, args, { ...result });
             },
             [property]
         );
-        return (
-            results.find((result) => result?.preventDefault) || {
-                preventDefault: false,
-                returnValue: undefined
-            }
-        );
+        return {
+            ...result
+        };
     }
 
     has(object: object): boolean {

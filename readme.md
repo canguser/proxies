@@ -1,3 +1,6 @@
-@proxies-js
+# @proxies-js
 
-1. Create a new file in your project called `proxies.js`
+> 一个基于订阅和拦截的深度响应式框架
+
+## 模块划分
+- [核心模块]('./modules/core/readme.md')

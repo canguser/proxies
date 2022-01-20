@@ -1,3 +1,3 @@
-# @scent/proxies
+# @proxies/vue
 
-> `scent` 框架中用于实现响应式的模块
+## 未开始开发

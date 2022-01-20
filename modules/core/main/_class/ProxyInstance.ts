@@ -3,7 +3,7 @@ import { fromEntries } from '@rapidly/utils/lib/commom/fromEntries';
 import { unique } from '@rapidly/utils/lib/array/unique';
 import { genOrderedId } from '@rapidly/utils/lib/commom/genOrderedId';
 import { genStrategyMapper } from '@rapidly/utils/lib/commom/genStrategyMapper';
-import { parseKeyChain } from '@rapidly/utils/lib/commom/parseKeyChain'
+import { parseKeyChain } from '@rapidly/utils/lib/commom/parseKeyChain';
 
 const proxyMethods = ['get', 'set', 'has', 'deleteProperty', 'getOwnPropertyDescriptor', 'defineProperty'];
 
@@ -19,6 +19,10 @@ export class ProxyInstance {
             proxyMethods.map((method) => [
                 method,
                 (...args) => {
+                    let oldValue;
+                    if (method === 'set') {
+                        oldValue = Reflect['get'](args[0], args[1]);
+                    }
                     let realReturnValue;
                     const { preventDefault, returnValue } = this.pool.notifyInterceptor(this.proxy, method, args);
                     if (preventDefault) {
@@ -26,7 +30,7 @@ export class ProxyInstance {
                     } else {
                         realReturnValue = Reflect[method](...args);
                     }
-                    Promise.resolve().then(() => this.pool.notifySubscriber(this.proxy, method, args));
+                    Promise.resolve().then(() => this.pool.notifySubscriber(this.proxy, method, [...args, oldValue]));
                     return realReturnValue;
                 }
             ])
@@ -40,66 +44,69 @@ export class ProxyInstance {
             ...this.allSubscribersMap,
             ...(this.subscribersMap.get(uniqueKeyChain) || {})
         };
-        Object.keys(subscribers).forEach((identity) => {
-            const subscriber = subscribers[identity];
-            const handler = subscriber[type];
-            if (typeof handler === 'function') {
-                const strategyMapper = genStrategyMapper(
-                    {
-                        get: () => {
-                            const [target, property] = args;
-                            const propertyChain = [...uniqueKeyChain];
-                            const getterValue = Reflect.get(target, property);
-                            handler({
-                                getterValue,
-                                directProperty: property,
-                                property: propertyChain.join('.'),
-                                propertyChain,
-                                proxy: this.proxy,
-                                pool: this.pool
-                            });
-                        },
-                        set: () => {
-                            const [, property, value] = args;
-                            const propertyChain = [...uniqueKeyChain];
-                            handler({
-                                directProperty: property,
-                                property: propertyChain.join('.'),
-                                propertyChain,
-                                value,
-                                proxy: this.proxy,
-                                pool: this.pool
-                            });
-                        }
-                    },
-                    () => {
-                        const [, property] = args;
-                        const propertyChain = [...uniqueKeyChain];
-                        handler(
-                            {
-                                directProperty: property,
-                                property: propertyChain.join('.'),
-                                propertyChain,
-                                proxy: this.proxy,
-                                pool: this.pool
+        Object.keys(subscribers)
+            .sort((a, b) => (a > b ? 1 : -1))
+            .forEach((identity) => {
+                const subscriber = subscribers[identity];
+                const handler = subscriber[type];
+                const [target, property] = args;
+                const propertyChain = [...uniqueKeyChain];
+                const defaultParams = {
+                    directProperty: property,
+                    propertyChain,
+                    property: propertyChain.join('.'),
+                    proxy: this.proxy,
+                    pool: this.pool
+                };
+                if (typeof handler === 'function') {
+                    const strategyMapper = genStrategyMapper(
+                        {
+                            get: () => {
+                                const getterValue = Reflect.get(target, property);
+                                handler(
+                                    {
+                                        ...defaultParams,
+                                        getterValue
+                                    },
+                                    ...args
+                                );
                             },
-                            ...[...args.slice(1)]
-                        );
-                    }
-                );
-                strategyMapper[type]();
-            }
-        });
+                            set: () => {
+                                const [, , value, , oldValue] = args;
+                                handler(
+                                    {
+                                        ...defaultParams,
+                                        value,
+                                        oldValue
+                                    },
+                                    ...args
+                                );
+                            }
+                        },
+                        () => {
+                            handler(
+                                {
+                                    ...defaultParams
+                                },
+                                ...args
+                            );
+                        }
+                    );
+                    strategyMapper[type]();
+                }
+            });
     }
 
-    public notifyInterceptor(keyChain: any[], type: string, args: any[]) {
+    public notifyInterceptor(keyChain: any[], type: string, args: any[], lastResult: any = {}) {
         const uniqueKeyChain = unique(keyChain);
         const interceptors = {
             ...this.allInterceptorsMap,
             ...(this.interceptorsMap.get(uniqueKeyChain) || {})
         };
-        return Object.keys(interceptors).reduce(
-            ({ returnValue, preventDefault: pd }, identity) => {
+        return Object.keys(interceptors)
+            .sort((a, b) => (a > b ? -1 : 1))
+            .reduce((last, identity) => {
+                const { returnValue, preventDefault: pd } = last;
                 const interceptor = interceptors[identity];
                 const handler = interceptor[type];
                 if (typeof handler === 'function') {
@@ -108,23 +115,31 @@ export class ProxyInstance {
                         preventDefaultValue = true;
                     }
                     const lastReturnValue = pd ? returnValue : undefined;
+                    const [target, property] = args;
+                    const propertyChain = [...uniqueKeyChain];
+                    const defaultParams = {
+                        target: this.target,
+                        directTarget: target,
+                        directProperty: property,
+                        property: propertyChain.join('.'),
+                        lastReturnValue,
+                        proxy: this.proxy,
+                        pool: this.pool,
+                        preventDefault
+                    };
                     const strategyMapper = genStrategyMapper(
                         {
                             get: () => {
-                                const [target, property] = args;
-                                const propertyChain = [...uniqueKeyChain];
                                 const getterValue = Reflect.get(target, property);
 
-                                const value = handler({
-                                    directProperty: property,
-                                    property: propertyChain.join('.'),
-                                    getterValue,
-                                    propertyChain,
-                                    lastReturnValue: lastReturnValue ? lastReturnValue : getterValue,
-                                    proxy: this.proxy,
-                                    pool: this.pool,
-                                    preventDefault
-                                });
+                                const value = handler(
+                                    {
+                                        ...defaultParams,
+                                        getterValue,
+                                        lastReturnValue: lastReturnValue ? lastReturnValue : getterValue
+                                    },
+                                    ...args
+                                );
                                 return {
                                     preventDefault: preventDefaultValue,
                                     returnValue: value
@@ -132,19 +147,14 @@ export class ProxyInstance {
                             },
                             set: () => {
                                 const [target, property, value] = args;
-                                const propertyChain = [...uniqueKeyChain];
-                                const returnValue = handler({
-                                    directProperty: property,
-                                    property: propertyChain.join('.'),
-                                    propertyChain,
-                                    value,
-                                    oldValue: Reflect.get(target, property),
-                                    target,
-                                    proxy: this.proxy,
-                                    pool: this.pool,
-                                    preventDefault,
-                                    lastReturnValue
-                                });
+                                const returnValue = handler(
+                                    {
+                                        ...defaultParams,
+                                        value,
+                                        oldValue: Reflect.get(target, property)
+                                    },
+                                    ...args
+                                );
                                 return {
                                     preventDefault: preventDefaultValue,
                                     returnValue
@@ -152,20 +162,11 @@ export class ProxyInstance {
                             }
                         },
                         () => {
-                            let preventDefault = false;
-                            const [, property] = args;
-                            const propertyChain = [...uniqueKeyChain];
                             const returnValue = handler(
                                 {
-                                    propertyChain,
-                                    proxy: this.proxy,
-                                    pool: this.pool,
-                                    lastReturnValue,
-                                    preventDefault,
-                                    directProperty: property,
-                                    property: propertyChain.join('.')
+                                    ...defaultParams
                                 },
-                                ...[...args.slice(1)]
+                                ...args
                             );
                             return {
                                 preventDefault: preventDefaultValue,
@@ -174,19 +175,21 @@ export class ProxyInstance {
                         }
                     );
                     const result = strategyMapper[type]();
+                    if (!result.preventDefault) {
+                        return last;
+                    }
                     return {
                         returnValue: result.returnValue,
-                        preventDefault: result.preventDefault || pd
+                        preventDefault: true
                     };
                 }
-            },
-            { returnValue: undefined, preventDefault: false }
-        );
+                return last;
+            }, lastResult);
     }
 
     public subscribe(isAll: boolean, keyChain: any[], handlersMap: { [key: string]: (...args) => any } = {}) {
         keyChain = parseKeyChain(keyChain);
-        const identity = genOrderedId();
+        const identity = '_subscript__' + genOrderedId();
         if (isAll) {
             const subscribersMap = this.allSubscribersMap;
             subscribersMap[identity] = handlersMap;
@@ -201,7 +204,7 @@ export class ProxyInstance {
 
     public intercept(isAll: boolean, keyChain: any[], handlersMap: { [key: string]: (...args) => any } = {}) {
         keyChain = parseKeyChain(keyChain);
-        const identity = genOrderedId();
+        const identity = '_intercept__' + genOrderedId();
         if (isAll) {
             const interceptorsMap = this.allInterceptorsMap;
             interceptorsMap[identity] = handlersMap;

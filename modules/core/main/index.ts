@@ -9,6 +9,8 @@ export declare function intercept(
     handlers: { [key: string]: Function }
 ): string;
 export declare function intercept(object: object, handlers: { [key: string]: Function }): string;
+export declare function intercept(object: object, setter: Function): string;
+
 export declare function subscribe(object: object, propertyChain: any[] | string, setter: Function): string;
 export declare function subscribe(
     object: object,
@@ -16,6 +18,7 @@ export declare function subscribe(
     handlers: { [key: string]: Function }
 ): string;
 export declare function subscribe(object: object, handlers: { [key: string]: Function }): string;
+export declare function subscribe(object: object, setter: Function): string;
 export declare function unsubscribe(object: object, identityId): void;
 export declare function cancelIntercept(object: object, identityId): void;
 export declare function proxy<T extends object>(object: T): T;
@@ -42,6 +45,6 @@ const methods = [
     'getDefaultPool'
 ];
 
-export const LIB_NAME = '@rapidly/core';
+export const LIB_NAME = '@proxies/core';
 
 Object.assign(exports, fromEntries(methods.map((method) => [method, manager[method].bind(manager)])));
