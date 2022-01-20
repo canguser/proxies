@@ -31,7 +31,7 @@
 
 #### Defined in
 
-[_common/index.ts:1](https://github.com/canguser/proxies/blob/0a04f76/modules/core/main/_common/index.ts#L1)
+[_common/index.ts:1](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_common/index.ts#L1)
 
 ___
 
@@ -54,7 +54,7 @@ ___
 
 #### Defined in
 
-[_common/index.ts:42](https://github.com/canguser/proxies/blob/0a04f76/modules/core/main/_common/index.ts#L42)
+[_common/index.ts:42](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_common/index.ts#L42)
 
 ___
 
@@ -78,4 +78,4 @@ ___
 
 #### Defined in
 
-[_common/index.ts:14](https://github.com/canguser/proxies/blob/0a04f76/modules/core/main/_common/index.ts#L14)
+[_common/index.ts:14](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_common/index.ts#L14)

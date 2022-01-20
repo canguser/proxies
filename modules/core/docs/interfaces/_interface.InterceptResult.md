@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[_interface/index.ts:2](https://github.com/canguser/proxies/blob/0a04f76/modules/core/main/_interface/index.ts#L2)
+[_interface/index.ts:2](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_interface/index.ts#L2)
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 #### Defined in
 
-[_interface/index.ts:3](https://github.com/canguser/proxies/blob/0a04f76/modules/core/main/_interface/index.ts#L3)
+[_interface/index.ts:3](https://github.com/canguser/proxies/blob/0066e34/modules/core/main/_interface/index.ts#L3)
