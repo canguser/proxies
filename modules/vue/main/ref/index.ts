@@ -23,11 +23,6 @@ export function ref(value, key = 'value') {
         }
         const raw = getRaw(refProxy);
         if (directTarget !== raw) {
-            if (isRef(value)) {
-                manager.removeRelationship(refProxy, reactive(directTarget));
-                manager.removeRelationship(reactive(directTarget), refProxy);
-                return value;
-            }
             raw[property] = value;
         }
         return value;

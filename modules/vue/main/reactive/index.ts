@@ -2,6 +2,9 @@ import { getRaw, hasProxy, intercept, manager, proxy } from '@proxies/core/main'
 import { isRef, isRefRaw } from '../ref';
 import { getRefKey, getRefValue } from '../ref';
 import { setProperty } from '@rapidly/utils/lib/object/setProperty';
+import { unique } from '@rapidly/utils/lib/array/unique';
+
+const refRelationshipMap = new WeakMap();
 
 function _applyReactiveObject(object: object, parent: object, parentKeys: any[]) {
     if (isRef(object)) {
@@ -9,6 +12,7 @@ function _applyReactiveObject(object: object, parent: object, parentKeys: any[])
         const refKey = getRefKey(object);
         manager.linkRelationShip(object, parentKeys, parentProxy, [refKey]);
         manager.linkRelationShip(parentProxy, [refKey], object, parentKeys);
+        refRelationshipMap.set(parentProxy, [unique(parentKeys), object]);
         return getRefValue(object);
     }
     return reactive(object);
@@ -36,6 +40,15 @@ export function reactive(target) {
             }
         },
         set({ preventDefault, value, proxy, propertyChain, directTarget }) {
+            if (isRef(value)) {
+                const lastRef = ([...refRelationshipMap.get(proxy)?.values?.() || []].find(
+                    ([keys]) => keys === unique(propertyChain)
+                ) || [])[1];
+                if (lastRef) {
+                    manager.removeRelationship(proxy, lastRef);
+                    manager.removeRelationship(lastRef, proxy);
+                }
+            }
             if (isRefRaw(directTarget)) {
                 const raw = getRaw(reactiveProxy);
                 setProperty(raw, propertyChain, value);
