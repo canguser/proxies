@@ -12,6 +12,13 @@ export function linkRelationShip(
     relationshipMap.set(parent, [parentProperties || [], childProperties || []]);
 }
 
+export function removeRelationship(targetMap: WeakMap<object, Map<object, any[][]>>, child: object, parent: object) {
+    if (targetMap.has(child)) {
+        const relationshipMap = targetMap.get(child);
+        relationshipMap.delete(parent);
+    }
+}
+
 export function traverseRelationship(
     targetMap: WeakMap<object, Map<object, any[][]>>,
     target: object,

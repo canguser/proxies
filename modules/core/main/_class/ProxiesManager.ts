@@ -1,12 +1,12 @@
 import { ProxiesPool } from './ProxiesPool';
-import { linkRelationShip, linkTheSame, traverseRelationship } from '../_common';
+import { linkRelationShip, linkTheSame, removeRelationship, traverseRelationship } from '../_common';
 import { ProxyInstance } from './ProxyInstance';
 
 export class ProxiesManager {
     proxiesPoolsMap: Map<string, ProxiesPool> = new Map<string, ProxiesPool>();
     proxy2objectMap = new WeakMap<object, object>();
     proxy2poolMap = new WeakMap<object, ProxiesPool>();
-    proxyRelationshipMap = new WeakMap<object, Map<object, any>>();
+    proxyRelationshipMap = new WeakMap<object, Map<object, any[][]>>();
     proxy2instanceMap = new WeakMap<object, ProxyInstance>();
 
     constructor() {
@@ -32,7 +32,7 @@ export class ProxiesManager {
         return newPool;
     }
 
-    linkPoolProxyInstance(pool: ProxiesPool,instance: ProxyInstance) {
+    linkPoolProxyInstance(pool: ProxiesPool, instance: ProxyInstance) {
         const proxy = instance.proxy;
         this.proxy2objectMap.set(proxy, instance.target);
         this.proxy2instanceMap.set(proxy, instance);
@@ -65,6 +65,14 @@ export class ProxiesManager {
             return;
         }
         traverseRelationship(this.proxyRelationshipMap, proxy, callback, propertyChain);
+    }
+
+    removeRelationship(proxy: object, parentProxy: object) {
+        if (!this.hasProxy(proxy) || !this.hasProxy(parentProxy)) {
+            console.warn('[ProxiesManager] removeRelationship: object or parent is not a proxy from this manager');
+            return;
+        }
+        removeRelationship(this.proxyRelationshipMap, proxy, parentProxy);
     }
 
     hasProxy(proxy: object): boolean {

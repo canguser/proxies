@@ -42,11 +42,7 @@ export class ProxyInstance {
                     } else {
                         realReturnValue = Reflect[method](...args);
                     }
-                    try {
-                        this.pool.notifySubscriber(this.proxy, method, [...args, oldValue]);
-                    } catch (e) {
-                        console.warn(e);
-                    }
+                    Promise.resolve().then(() => this.pool.notifySubscriber(this.proxy, method, [...args, oldValue]));
                     return realReturnValue;
                 }
             ])

@@ -1,6 +1,7 @@
 import { createPool, intercept, proxy, readonly, shallow, subscribe, unsubscribe } from '../index';
 import { wait } from '@rapidly/utils/lib/commom/async/wait';
 import { setProperty } from '@rapidly/utils/lib/object/setProperty';
+import any = jasmine.any
 
 describe('test index', () => {
     it('should normal works - 01', () => {});
@@ -188,4 +189,45 @@ describe('test index', () => {
         await wait(100);
         expect.assertions(8)
     });
+
+    it('should remove relationship by reassign', async function() {
+        const p: any = proxy({ a: 1, b: 2 });
+        const p2 = proxy({ a: 11, b: 22 });
+        const p3 = proxy({ a: 111, b: 222 });
+
+        p.c = p2;
+
+        subscribe(p, 'c.a', ({ value }) => {
+            expect(value).toBe(999); // 2 + 3
+        });
+
+        subscribe(p2, 'a', ({ value }) => {
+            expect(value).toBe(999); // 3 + 1
+        });
+
+        subscribe(p3, 'a', ({ value }) => {
+            expect(value).toBe(999); // 2 + 1
+        });
+
+        p2.a = 999; // 2
+        p.c.a = 999; // 2
+
+        await wait(0);
+
+        p.c = p3;
+        p2.a = 999; // 1
+        p3.a = 999; // 2
+        p.c.a = 999; // 2
+
+        await wait(0);
+        p.c = {}
+        p2.a = 999; // 1
+        p3.a = 999; // 1
+        p.c.a = 999; // 1
+
+        await wait(0);
+
+        expect.assertions(12);
+
+    })
 });

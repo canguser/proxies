@@ -1,6 +1,7 @@
-import { hasProxy, intercept, manager, proxy } from '@proxies/core/main';
-import { isRef } from '../ref';
+import { getRaw, hasProxy, intercept, manager, proxy } from '@proxies/core/main';
+import { isRef, isRefRaw } from '../ref';
 import { getRefKey, getRefValue } from '../ref';
+import { setProperty } from '@rapidly/utils/lib/object/setProperty';
 
 function _applyReactiveObject(object: object, parent: object, parentKeys: any[]) {
     if (isRef(object)) {
@@ -34,7 +35,11 @@ export function reactive(target) {
                 return _applyReactiveObject(lastReturnValue, proxy, propertyChain);
             }
         },
-        set({ preventDefault, value, proxy, propertyChain, property = [] }) {
+        set({ preventDefault, value, proxy, propertyChain, directTarget }) {
+            if (isRefRaw(directTarget)) {
+                const raw = getRaw(reactiveProxy);
+                setProperty(raw, propertyChain, value);
+            }
             if (typeof value === 'object') {
                 preventDefault();
                 return _applyReactiveObject(value, proxy, propertyChain);

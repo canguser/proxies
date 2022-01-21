@@ -1,6 +1,6 @@
 import { ProxiesManager } from './ProxiesManager';
 import { ProxyInstance } from './ProxyInstance';
-import { linkRelationShip, linkTheSame, traverseRelationship } from '../_common';
+import { linkRelationShip, linkTheSame, removeRelationship, traverseRelationship } from '../_common';
 import { InterceptResult } from '../_interface';
 
 export interface PoolOptions {
@@ -19,7 +19,7 @@ export class ProxiesPool {
 
     // following 2 are using without manager
     proxy2instanceMap = new WeakMap<object, ProxyInstance>();
-    proxyRelationshipMap = new WeakMap<object, Map<object, any>>();
+    proxyRelationshipMap = new WeakMap<object, Map<object, any[][]>>();
 
     private readonly options: PoolOptions;
 
@@ -64,11 +64,14 @@ export class ProxiesPool {
                     return this.genLinkedProxy(lastReturnValue, directProperty, proxy);
                 }
             },
-            set: ({ directProperty, proxy, value, preventDefault, notModifiedValue }) => {
+            set: ({ directProperty, proxy, value, preventDefault, notModifiedValue, oldValue }) => {
                 if (this.options.readonly) {
                     preventDefault();
                     console.warn(`Target object is readonly. Property "${directProperty}" is not writable.`);
                     return notModifiedValue;
+                }
+                if (typeof oldValue === 'object' && this.has(oldValue)) {
+                    this.removeRelationship(this.getProxy(oldValue), proxy);
                 }
                 if (typeof value === 'object') {
                     const raw = this.getRaw(this.genLinkedProxy(value, directProperty, proxy));
@@ -112,6 +115,18 @@ export class ProxiesPool {
             return;
         }
         linkRelationShip(this.proxyRelationshipMap, proxy, [property], parentProxy);
+    }
+
+    removeRelationship(proxy: object, parentProxy: object) {
+        if (this.manager) {
+            this.manager.removeRelationship(proxy, parentProxy);
+            return;
+        }
+        if (!this.has(proxy) || !this.has(parentProxy)) {
+            console.warn('[ProxiesPool] removeRelationship: object or parent is not a proxy from this pool');
+            return;
+        }
+        removeRelationship(this.proxyRelationshipMap, proxy, parentProxy);
     }
 
     traverseRelationship(proxy: object, callback: (parent: object, propertyChain: any[]) => void, propertyChain = []) {
