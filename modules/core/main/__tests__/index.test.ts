@@ -230,4 +230,26 @@ describe('test index', () => {
         expect.assertions(12);
 
     })
+
+    it('should right priority in the same level', function() {
+        const a = proxy({ a: 1, b: 2 });
+
+        let i = 0;
+
+        intercept(a, ()=>{
+            expect(i).toBe(1);
+            i++;
+        })
+
+        intercept(a, ()=>{
+            expect(i).toBe(0);
+            i++;
+        })
+
+        a.a = 2;
+
+        expect(i).toBe(2);
+
+
+    })
 });

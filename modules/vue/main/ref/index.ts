@@ -1,5 +1,4 @@
 import { getRaw, intercept, manager, shallow } from '@proxies/core/main';
-import { reactive } from '../reactive';
 
 const refKeyMap = new WeakMap();
 const rawRefMap = new WeakMap();
@@ -15,7 +14,12 @@ export function ref(value, key = 'value') {
         [key]: value
     };
     const refProxy = shallow(raw);
-    intercept(refProxy, ({ preventDefault, property, value, oldValue, directTarget }) => {
+    intercept(refProxy, ({ preventDefault, propertyChain, value, directTarget }) => {
+        const isShallowLevel = propertyChain.length === 1;
+        if (!isShallowLevel) {
+            return;
+        }
+        const property = propertyChain[0];
         if (property !== key) {
             preventDefault();
             console.warn(`Ref proxy only accepts '${key}' property`);

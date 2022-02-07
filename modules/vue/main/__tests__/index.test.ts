@@ -1,9 +1,10 @@
-import { ref } from '../ref'
+import { isRef, ref } from '../ref'
 import { subscribe } from '@proxies/core/main'
 import { reactive } from '../reactive'
+import { wait } from '@rapidly/utils/lib/commom/async/wait'
 
 describe('test index', () => {
-    it('should ref works - 01', () => {
+    it('should ref works - 01', async () => {
 
         const text = ref('hello world');
 
@@ -12,6 +13,8 @@ describe('test index', () => {
         text.value = 'hello vue';
 
         expect(text.value).toBe('hello vue');
+
+        await wait(100)
 
         subscribe(text, ({ value, oldValue }) => {
             expect(value).toBe('hello react');
@@ -23,13 +26,41 @@ describe('test index', () => {
 
     });
 
-    it('should link ref (normal object)', function() {
+    it('should link ref - 01', function() {
         const a = reactive({ a: 1 });
 
         const r = ref('hello');
 
         a.test = r;
 
+        expect(a.test).toBe(r.value);
+    })
+
+    it('should link ref - 02', function() {
+        const a = reactive({ a: 1 });
+
+        const r = ref('hello');
+
+        a.test = r;
+
+        let world = 'world';
+
+        a.test = world;
+
+        expect(a.test).toBe(world);
+        expect(r.value).toBe(world);
+    })
+
+    it('should link ref (normal object)', function() {
+        const a = reactive({ a: 1 });
+
+        const r = ref('hello');
+
+        expect(isRef(r)).toBe(true);
+
+        a.test = r;
+
+        expect(a.test).toBe('hello');
         expect(a.test).toBe(r.value);
 
         let world = 'world';
@@ -70,8 +101,38 @@ describe('test index', () => {
 
     it('should ref works with reactive - 01', () => {
         const age = ref(11);
-        // const
 
+        const person = reactive({})
+
+        person.age = age;
+
+        expect(person.age).toBe(11);
+
+        person.age = 12;
+
+        expect(person.age).toBe(12);
+        expect(age.value).toBe(12);
+
+        age.value = 13;
+        expect(person.age).toBe(13);
+        expect(age.value).toBe(13);
+    });
+
+    it('should ref works with reactive - 02', () => {
+        const age = ref(11);
+
+        const person = reactive({ age })
+
+        expect(person.age).toBe(11);
+
+        person.age = 12;
+
+        expect(person.age).toBe(12);
+        expect(age.value).toBe(12);
+
+        age.value = 13;
+        expect(person.age).toBe(13);
+        expect(age.value).toBe(13);
     });
 
 });

@@ -12,7 +12,9 @@ function _applyReactiveObject(object: object, parent: object, parentKeys: any[])
         const refKey = getRefKey(object);
         manager.linkRelationShip(object, parentKeys, parentProxy, [refKey]);
         manager.linkRelationShip(parentProxy, [refKey], object, parentKeys);
-        refRelationshipMap.set(parentProxy, [unique(parentKeys), object]);
+        const targetRefRelationshipMap = refRelationshipMap.get(parentProxy) || new Map();
+        targetRefRelationshipMap.set(unique(parentKeys), object);
+        refRelationshipMap.set(parentProxy, targetRefRelationshipMap);
         return getRefValue(object);
     }
     return reactive(object);
@@ -23,27 +25,26 @@ export function reactive(target) {
         return target;
     }
 
-    Object.keys(target).forEach((key) => {
-        const value = target[key];
-        if (typeof value === 'object') {
-            _applyReactiveObject(value, target, [key]);
-        }
-    });
-
     const reactiveProxy = proxy(target);
 
     intercept(reactiveProxy, {
         get({ preventDefault, lastReturnValue, proxy, propertyChain = [] }) {
+            const isShallowLevel = propertyChain.length === 1;
+            if (!isShallowLevel) {
+                return;
+            }
             if (typeof lastReturnValue === 'object') {
                 preventDefault();
                 return _applyReactiveObject(lastReturnValue, proxy, propertyChain);
             }
         },
         set({ preventDefault, value, proxy, propertyChain, directTarget }) {
+            const isShallowLevel = propertyChain.length === 1;
+            if (!isShallowLevel) {
+                return;
+            }
             if (isRef(value)) {
-                const lastRef = ([...refRelationshipMap.get(proxy)?.values?.() || []].find(
-                    ([keys]) => keys === unique(propertyChain)
-                ) || [])[1];
+                const lastRef = refRelationshipMap.get(proxy)?.get(unique(propertyChain));
                 if (lastRef) {
                     manager.removeRelationship(proxy, lastRef);
                     manager.removeRelationship(lastRef, proxy);
@@ -57,6 +58,13 @@ export function reactive(target) {
                 preventDefault();
                 return _applyReactiveObject(value, proxy, propertyChain);
             }
+        }
+    });
+
+    Object.keys(target).forEach((key) => {
+        const value = target[key];
+        if (typeof value === 'object') {
+            target[key] = _applyReactiveObject(value, reactiveProxy, [key]);
         }
     });
 

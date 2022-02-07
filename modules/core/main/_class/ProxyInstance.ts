@@ -57,16 +57,22 @@ export class ProxyInstance {
             ...(this.subscribersMap.get(uniqueKeyChain) || {})
         };
         Object.keys(subscribers)
-            .sort((a, b) => (a > b ? 1 : -1))
+            .sort((a, b) => {
+                const aId = parseInt(a.split('__')[1], 10);
+                const bId = parseInt(b.split('__')[1], 10);
+                return aId < bId ? 1 : -1;
+            })
             .forEach((identity) => {
                 const subscriber = subscribers[identity];
                 const handler = subscriber[type];
                 const [target, property] = args;
                 const propertyChain = [...uniqueKeyChain];
+                const isSymbol = propertyChain.some((key) => typeof key === 'symbol');
                 const defaultParams = {
                     directProperty: property,
                     propertyChain,
-                    property: propertyChain.join('.'),
+                    property: isSymbol ? null : propertyChain.join('.'),
+                    isSymbol,
                     proxy: this.proxy,
                     pool: this.pool
                 };
@@ -116,7 +122,11 @@ export class ProxyInstance {
             ...(this.interceptorsMap.get(uniqueKeyChain) || {})
         };
         return Object.keys(interceptors)
-            .sort((a, b) => (a > b ? -1 : 1))
+            .sort((a, b) => {
+                const aId = parseInt(a.split('__')[1], 10);
+                const bId = parseInt(b.split('__')[1], 10);
+                return aId < bId ? 1 : -1;
+            })
             .reduce((last, identity) => {
                 const { returnValue, preventDefault: pd } = last;
                 const interceptor = interceptors[identity];
@@ -129,15 +139,17 @@ export class ProxyInstance {
                     const lastReturnValue = pd ? returnValue : undefined;
                     const [target, property] = args;
                     const propertyChain = [...uniqueKeyChain];
+                    const isSymbol = propertyChain.some((key) => typeof key === 'symbol');
                     const defaultParams = {
                         target: this.target,
                         directTarget: target,
                         directProperty: property,
-                        property: propertyChain.join('.'),
+                        property: isSymbol ? null : propertyChain.join('.'),
                         propertyChain,
                         lastReturnValue,
                         proxy: this.proxy,
                         pool: this.pool,
+                        isSymbol,
                         preventDefault
                     };
                     const strategyMapper = genStrategyMapper(
