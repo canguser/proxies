@@ -1,0 +1,43 @@
+{
+    "name": "@proxies/subscribe-api",
+    "version": "1.0.0-beta",
+    "description": "A deeply responsive framework based on subscription and interception - the subscribe-api part",
+    "main": "dist/proxies.subscribe-api.js",
+    "mainMini": "dist/proxies.subscribe-api.mini.js",
+    "module": "dist/proxies.subscribe-api.es.js",
+    "bin": "bin/proxies.subscribe-api.js",
+    "libName": "proxies.subscribe_api",
+    "_sourceName": "proxies.subscribe_api",
+    "author": "Cangshi",
+    "license": "Apache-2.0",
+    "scripts": {
+        "build": "yarn run rollup && yarn run rollup:mini && yarn run rollup:esm:es5",
+        "build-dev": "yarn run rollup",
+        "do-publish": "yarn run test && yarn run gen-dts:docs && yarn run build && yarn run run-publish ",
+        "run-publish": "yarn publish --access public --new-version $npm_package_version",
+        "test": "jest",
+        "rollup": "rollup -c",
+        "rollup:mini": "cross-env NODE_ENV=prod rollup -c",
+        "rollup:esm": "cross-env NODE_ENV=esm rollup -c",
+        "rollup:esm:es5": "cross-env NODE_ENV=esm5 rollup -c",
+        "gen-docs": "typedoc --out docs main/*.ts main/**/*.ts",
+        "gen-dts": "npx tsc main/index.ts --declaration --emitDeclarationOnly --target ES2020 --moduleResolution node --outDir types",
+        "gen-dts:docs": "yarn run gen-dts && yarn run gen-docs"
+    },
+    "files": [
+        "bin",
+        "dist",
+        "build",
+        "docs",
+        "types",
+        "readme.md",
+        "LICENSE",
+        "package.json"
+    ],
+    "types": "types/index.d.ts",
+    "dependencies": {
+        "@rapidly/utils": "2.0.0-beta2"
+    },
+    "devDependencies": {},
+    "repository": "https://github.com/canguser/proxies.git"
+}
