@@ -1,6 +1,6 @@
 {
     "name": "@proxies/core",
-    "version": "1.0.0-beta",
+    "version": "2.0.0-beta",
     "description": "A deeply responsive framework based on subscription and interception - the core part",
     "main": "dist/proxies.core.js",
     "mainMini": "dist/proxies.core.mini.js",
@@ -36,7 +36,8 @@
     ],
     "types": "types/index.d.ts",
     "dependencies": {
-        "@rapidly/utils": "2.0.0-beta2"
+        "@rapidly/utils": "2.0.0-beta2",
+        "@proxies/subscribe-api": "1.0.0-beta"
     },
     "devDependencies": {},
     "repository": "https://github.com/canguser/proxies.git"
